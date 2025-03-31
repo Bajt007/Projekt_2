@@ -28,23 +28,23 @@ def is_valid_guess(guess: str) -> bool:
     Returns:
         bool: True if the guess is valid, otherwise False
     """
+    error = []
     # Check 4-digits
     if len(guess) != 4:
-        print("Error: Your guess must be a 4-digit number.")
-        return False    
+        error.append(f"Error: Your guess must be a 4-digit number, you entered {len(guess)} digits.") 
     # Check if only digits
     if not guess.isdigit():
-        print("Error: Your guess must contain only digits.")
-        return False  
+        error.append(f"Error: Your guess must contain only digits, you entered '{guess}'.")
     # Check if 0 is first
     if guess[0] == '0':
-        print("Error: Your guess must not start with 0.")
-        return False  
+        error.append("Error: Your guess must not start with 0.")
     # Check if no duplication
     if len(set(guess)) != 4:
-        print("Error: Your guess must contain uonly nique digits.")
-        return False
-    
+        error.append("Error: Your guess must contain uonly nique digits.")
+    if error:
+         for e in error:
+            print(e)
+         return False
     return True
 
 def evaluate_guess(guess: str, secret: str) -> tuple:
