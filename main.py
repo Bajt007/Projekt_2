@@ -2,13 +2,16 @@
 import random
 import time
 
-
-def generate_secret_number():
-    # 4-digit number, unique digits not starting with 0
+def generate_secret_number() -> str:
+    """
+    Generates a secret 4-digit number with unique digits, not starting with 0
+    Returns:
+        str: Generated secret number as a string
+    """
     digits = list(range(1, 10))
-    # first one
+    # first digit
     first_digit = random.choice(digits)
-    # last three
+    # last three digita
     digits = list(range(10)) 
     digits.remove(first_digit)
     remaining_digits = random.sample(digits, 3)
@@ -17,8 +20,14 @@ def generate_secret_number():
     secret_number_str = ''.join([str(digit) for digit in secret_number])
     return secret_number_str
 
-
-def is_valid_guess(guess):
+def is_valid_guess(guess: str) -> bool:
+    """
+    Checks if the given guess is a valid 4-digit number
+    Arg:
+        guess (str): User's guess as a string
+    Returns:
+        bool: True if the guess is valid, otherwise False
+    """
     # Check 4-digits
     if len(guess) != 4:
         print("Error: Your guess must be a 4-digit number.")
@@ -38,8 +47,15 @@ def is_valid_guess(guess):
     
     return True
 
-
-def evaluate_guess(guess, secret):
+def evaluate_guess(guess: str, secret: str) -> tuple:
+    """
+    Evaluates user's guess against the secret number, calculates bulls and cows
+    Args:
+        guess (str): The user's guess
+        secret (str): The secret number
+    Returns:
+        tuple: A tuple containing the number of bulls and cows
+    """
     bulls = 0
     cows = 0   
     for i in range(4):
@@ -49,33 +65,45 @@ def evaluate_guess(guess, secret):
             cows += 1           
     return bulls, cows
 
-
-def format_output(bulls, cows, start_time):
+def format_output(bulls: int, cows: int, start_time: float) -> str:
+    """
+    Formating the output string to display the number of bulls, cows and the time
+    Args:
+        bulls (int): amount of bulls.
+        cows (int): amount of cows.
+        start_time (float): The starting time of the game
+    Returns:
+        str: a formatted string displaying the bulls, cows and time
+    """
     # singular vs. plural
     bull_format = "bull" if bulls == 1 else "bulls"
     cow_format = "cow" if cows == 1 else "cows"
     run_time = time.time() - start_time
     return f"{bulls} {bull_format}, {cows} {cow_format}  (Time: {run_time:.2f} seconds)"
 
-
 def game_start():
+    """
+    Starts the game Bulls and Cows, handling user inputs, calculates elapsed time, evaluates results and outputs
+    """
     secret_number = generate_secret_number()
     attempts = 0
     start_time = time.time()
     
     # print(f"Secret number is: {secret_number}")
-    print("Hi there!")
-    print("-----------------------------------------------")
-    print("I've generated a random 4 digit number for you.\n"
-          "Let's play a bulls and cows game.")
-    print("-----------------------------------------------")
+    print("""
+    Hi there!
+    -----------------------------------------------
+    I've generated a random 4 digit number for you.
+    Let's play a bulls and cows game.
+    -----------------------------------------------
+    """)
     
     while True:
         if attempts == 0:
             guess = input("Enter a number: ")
         else:
             guess = input(">>> ")
-                
+      
         if not is_valid_guess(guess):
             continue
         
@@ -94,5 +122,5 @@ def game_start():
             print(format_output(bulls, cows, start_time))
             print("-----------------------------------------------")
 
-#if __name__ == "__main__":
-game_start()
+if __name__ == "__main__":
+    game_start()
